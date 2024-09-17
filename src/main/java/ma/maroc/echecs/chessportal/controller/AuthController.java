@@ -3,6 +3,7 @@ package ma.maroc.echecs.chessportal.controller;
 import ma.maroc.echecs.chessportal.config.JwtUtil;
 import ma.maroc.echecs.chessportal.model.AuthenticationRequest;
 import ma.maroc.echecs.chessportal.model.AuthenticationResponse;
+import ma.maroc.echecs.chessportal.model.ForgotPasswordRequest;
 import ma.maroc.echecs.chessportal.model.RegistrationRequest;
 import ma.maroc.echecs.chessportal.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.HashMap;
 import java.util.Map;
 
+import lombok.extern.slf4j.Slf4j;
+
+
+@Slf4j
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -58,4 +63,17 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
         }
     }
+
+
+    @PostMapping("/forgot-password")
+    public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
+        try {
+            userDetailsService.sendPasswordResetEmail(request.getEmail());
+            return ResponseEntity.ok("Password reset email sent.");
+        } catch (Exception e) {
+            log.error("Error sending password reset email", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending email.");
+        }
+    }
+
 }
