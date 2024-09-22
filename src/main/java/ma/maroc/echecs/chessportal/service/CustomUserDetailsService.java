@@ -48,16 +48,26 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void sendPasswordResetEmail(String email) {
-        // Generate a token
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+
         String token = UUID.randomUUID().toString();
+        user.setResetToken(token); // Save the token
+        userRepository.save(user);
 
-        // Save the token to the database associated with the user
-
-        // Send email logic here (using JavaMailSender or other email service)
-        String resetLink = "http://your-app.com/reset-password?token=" + token;
+        String resetLink = "http://localhost:4200/reset-password?token=" + token;
         String message = "Click the link to reset your password: " + resetLink;
 
-        emailService.sendEmail(email, "Password Reset", message);
+        emailService.sendEmail(user.getEmail(), "Password Reset", message);
+    }
+
+    public void resetPassword(String token, String newPassword) {
+        User user = userRepository.findByResetToken(token)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid token"));
+
+        user.setPassword(passwordEncoder.encode(newPassword));
+        user.setResetToken(null); // Clear the token after successful reset
+        userRepository.save(user);
     }
 
 }

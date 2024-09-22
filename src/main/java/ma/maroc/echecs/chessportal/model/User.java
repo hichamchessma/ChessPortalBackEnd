@@ -27,6 +27,9 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(nullable = true, unique = true)
+    private String resetToken;
+
     public User() {
     }
 }

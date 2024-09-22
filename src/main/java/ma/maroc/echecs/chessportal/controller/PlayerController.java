@@ -3,6 +3,8 @@ package ma.maroc.echecs.chessportal.controller;
 import ma.maroc.echecs.chessportal.model.Player;
 import ma.maroc.echecs.chessportal.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +19,8 @@ public class PlayerController {
     private PlayerService playerService;
 
     @GetMapping
-    public List<Player> getAllPlayers() {
-        return playerService.getAllPlayers();
+    public Page<Player> getAllPlayers(Pageable pageable) {
+        return playerService.getAllPlayers(pageable);
     }
 
     @GetMapping("/{id}")
@@ -47,5 +49,10 @@ public class PlayerController {
     public ResponseEntity<Void> deletePlayer(@PathVariable Long id) {
         playerService.deletePlayer(id);
         return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/search")
+    public Page<Player> searchPlayers(@RequestParam String keyword, Pageable pageable) {
+        return playerService.searchPlayers(keyword, pageable);
     }
 }

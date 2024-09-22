@@ -1,10 +1,7 @@
 package ma.maroc.echecs.chessportal.controller;
 
 import ma.maroc.echecs.chessportal.config.JwtUtil;
-import ma.maroc.echecs.chessportal.model.AuthenticationRequest;
-import ma.maroc.echecs.chessportal.model.AuthenticationResponse;
-import ma.maroc.echecs.chessportal.model.ForgotPasswordRequest;
-import ma.maroc.echecs.chessportal.model.RegistrationRequest;
+import ma.maroc.echecs.chessportal.model.*;
 import ma.maroc.echecs.chessportal.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -69,10 +66,31 @@ public class AuthController {
     public ResponseEntity<?> forgotPassword(@RequestBody ForgotPasswordRequest request) {
         try {
             userDetailsService.sendPasswordResetEmail(request.getEmail());
-            return ResponseEntity.ok("Password reset email sent.");
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message","Password reset email sent.");
+            return ResponseEntity.ok(response);
         } catch (Exception e) {
             log.error("Error sending password reset email", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending email.");
+        }
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<?> resetPassword(@RequestBody ResetPasswordRequest request) {
+        try {
+            String token = request.getToken();
+            String newPassword = request.getNewPassword();
+
+            userDetailsService.resetPassword(token, newPassword);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Password successfully reset.");
+
+            return ResponseEntity.ok(response);  // Return the map in the response
+        } catch (Exception e) {
+            log.error("Error in password reset process ", e);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error resetting password.");
         }
     }
 
