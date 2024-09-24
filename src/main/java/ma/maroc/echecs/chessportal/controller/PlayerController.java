@@ -1,5 +1,8 @@
 package ma.maroc.echecs.chessportal.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.extern.slf4j.Slf4j;
 import ma.maroc.echecs.chessportal.model.Player;
 import ma.maroc.echecs.chessportal.service.PlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +11,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Optional;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/players")
 public class PlayerController {
@@ -18,9 +21,12 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
+    @Autowired
+    private ObjectMapper objectMapper;
+
     @GetMapping
-    public Page<Player> getAllPlayers(Pageable pageable) {
-        return playerService.getAllPlayers(pageable);
+    public Page<Player> getAllPlayers(Pageable pageable )  {
+        return  playerService.getAllPlayers(pageable);
     }
 
     @GetMapping("/{id}")

@@ -3,6 +3,7 @@ package ma.maroc.echecs.chessportal.config;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
@@ -10,8 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+@Slf4j
 @Component
 public class JwtUtil {
+
 
     private String SECRET_KEY = "yourSecretKey";
 
@@ -28,7 +31,7 @@ public class JwtUtil {
         return claimsResolver.apply(claims);
     }
 
-    private Claims extractAllClaims(String token) {
+    public Claims extractAllClaims(String token) {
         return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
     }
 
@@ -52,6 +55,10 @@ public class JwtUtil {
     }
 
     public Boolean validateToken(String token, String username) {
+
+     //   log.error("JWT Token: " + token);
+     //  log.error("Is token valid: " + (extractUsername(token).equals(username) && !isTokenExpired(token)));
+
         final String extractedUsername = extractUsername(token);
         return (extractedUsername.equals(username) && !isTokenExpired(token));
     }

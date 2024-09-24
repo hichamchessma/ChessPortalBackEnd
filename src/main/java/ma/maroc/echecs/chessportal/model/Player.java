@@ -39,5 +39,11 @@ public class Player {
 
     private LocalDate updatedAt;
 
-    // Getters and Setters
+    public String toString() {
+        return "Player{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
 }

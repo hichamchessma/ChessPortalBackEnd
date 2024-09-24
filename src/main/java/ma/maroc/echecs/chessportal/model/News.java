@@ -28,5 +28,6 @@ public class News {
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    // Getters and Setters
+    public News() {
+    }
 }

@@ -1,5 +1,7 @@
 package ma.maroc.echecs.chessportal.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import ma.maroc.echecs.chessportal.model.Player;
 import ma.maroc.echecs.chessportal.repository.PlayerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -17,8 +18,11 @@ public class PlayerService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    public Page<Player> getAllPlayers(Pageable pageable) {
-        return playerRepository.findAll(pageable);
+    public Page<Player> getAllPlayers(Pageable pageable)  {
+                Page players = playerRepository.findAll(pageable);
+
+
+        return players;
     }
 
     public Optional<Player> getPlayerById(Long id) {

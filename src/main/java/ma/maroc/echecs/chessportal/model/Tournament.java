@@ -20,6 +20,9 @@ public class Tournament {
 
     private String location;
 
+    public Tournament() {
+    }
+
     @Column(nullable = false)
     private LocalDate startDate;
 

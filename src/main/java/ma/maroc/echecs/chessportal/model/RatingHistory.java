@@ -24,6 +24,9 @@ public class RatingHistory {
     @Column(nullable = false)
     private int ratingValue;
 
+    public RatingHistory() {
+    }
+
     @Column(nullable = false)
     private LocalDate changeDate;
 

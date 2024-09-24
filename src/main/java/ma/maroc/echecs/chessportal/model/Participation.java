@@ -29,5 +29,6 @@ public class Participation {
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    // Getters and Setters
+    public Participation() {
+    }
 }

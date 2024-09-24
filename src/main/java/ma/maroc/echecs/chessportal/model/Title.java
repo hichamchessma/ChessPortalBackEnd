@@ -27,5 +27,7 @@ public class Title {
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
-    // Getters and Setters
+    public Title() {
+    }
+// Getters and Setters
 }

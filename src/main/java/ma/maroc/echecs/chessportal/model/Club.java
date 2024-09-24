@@ -1,5 +1,6 @@
 package ma.maroc.echecs.chessportal.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,9 +27,12 @@ public class Club {
     private String contactEmail;
 
     @OneToMany(mappedBy = "club")
+    @JsonIgnore
     private List<Player> players;
 
     private LocalDate createdAt;
     private LocalDate updatedAt;
 
+    public Club() {
+    }
 }
