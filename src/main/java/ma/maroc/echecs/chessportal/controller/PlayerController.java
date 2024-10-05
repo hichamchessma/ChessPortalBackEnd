@@ -1,7 +1,5 @@
 package ma.maroc.echecs.chessportal.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import ma.maroc.echecs.chessportal.model.Player;
 import ma.maroc.echecs.chessportal.service.PlayerService;
@@ -21,12 +19,10 @@ public class PlayerController {
     @Autowired
     private PlayerService playerService;
 
-    @Autowired
-    private ObjectMapper objectMapper;
 
     @GetMapping
-    public Page<Player> getAllPlayers(Pageable pageable )  {
-        return  playerService.getAllPlayers(pageable);
+    public Page<Player> getAllPlayers(Pageable pageable) {
+        return playerService.getAllPlayers(pageable);
     }
 
     @GetMapping("/{id}")
